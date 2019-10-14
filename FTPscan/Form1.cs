@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -22,19 +23,34 @@ namespace FTPscan
         }
 
         public NetworkCredential nc = new NetworkCredential("anonymous", "anonymous");
-        public List<String> dataExternal = new List<String> { };
-        public string fileCurrentlyWriting = "";
+
+        public List<String> dataExternal_1 = new List<String> { };
+        public List<String> dataExternal_2 = new List<String> { };
+        public List<String> dataExternal_3 = new List<String> { };
+        public List<String> dataExternal_4 = new List<String> { };
+
+        public string fileCurrentlyWriting_1 = "";
+        public string fileCurrentlyWriting_2 = "";
+        public string fileCurrentlyWriting_3 = "";
+        public string fileCurrentlyWriting_4 = "";
+
         public int totalIPs;
         public int completeIps;
         public string[] lines;
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+           
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (checkBox1.Checked)
+            {
+                RNGCryptoServiceProvider rnd2 = new RNGCryptoServiceProvider(); //may be overdoing it a little
+                lines = lines.OrderBy(x => GetNextInt32(rnd2)).ToArray();
+            }
+
             string[] Ofirstsplit = lines.Take(lines.Length / 2).ToArray();
             string[] Osecondsplit = lines.Skip(lines.Length / 2).ToArray();
 
@@ -64,18 +80,67 @@ namespace FTPscan
         {
             foreach (string s in ips)
             {
-                this.Invoke(new MethodInvoker(delegate ()
+                if (thrid == 1)
                 {
-                    string safeFilename = s.Replace('.', '-') + ".txt";
-                    safeFilename = safeFilename.Replace(':', '-');
-                    fileCurrentlyWriting = Application.StartupPath + "/" + safeFilename;
-                    fileCurrentlyWriting = fileCurrentlyWriting.Replace('\\', '/');
-                    var file = File.Create(fileCurrentlyWriting);
-                    file.Dispose();
-                    dataExternal = new List<String> { };
-                    completeIps++;
-                    label2.Text = completeIps + " / " + lines.Length;
-                }));
+                    this.Invoke(new MethodInvoker(delegate ()
+                    {
+                        string safeFilename = s.Replace('.', '-') + ".txt";
+                        safeFilename = safeFilename.Replace(':', '-');
+                        fileCurrentlyWriting_1 = Application.StartupPath + "/" + safeFilename;
+                        fileCurrentlyWriting_1 = fileCurrentlyWriting_1.Replace('\\', '/');
+                        var file = File.Create(fileCurrentlyWriting_1);
+                        file.Dispose();
+                        dataExternal_1 = new List<String> { };
+                        completeIps++;
+                        label2.Text = completeIps + " / " + lines.Length;
+                    }));
+                }
+                if (thrid == 2)
+                {
+                    this.Invoke(new MethodInvoker(delegate ()
+                    {
+                        string safeFilename = s.Replace('.', '-') + ".txt";
+                        safeFilename = safeFilename.Replace(':', '-');
+                        fileCurrentlyWriting_2 = Application.StartupPath + "/" + safeFilename;
+                        fileCurrentlyWriting_2 = fileCurrentlyWriting_2.Replace('\\', '/');
+                        var file = File.Create(fileCurrentlyWriting_2);
+                        file.Dispose();
+                        dataExternal_2 = new List<String> { };
+                        completeIps++;
+                        label2.Text = completeIps + " / " + lines.Length;
+                    }));
+                }
+                if (thrid == 3)
+                {
+                    this.Invoke(new MethodInvoker(delegate ()
+                    {
+                        string safeFilename = s.Replace('.', '-') + ".txt";
+                        safeFilename = safeFilename.Replace(':', '-');
+                        fileCurrentlyWriting_3 = Application.StartupPath + "/" + safeFilename;
+                        fileCurrentlyWriting_3 = fileCurrentlyWriting_3.Replace('\\', '/');
+                        var file = File.Create(fileCurrentlyWriting_3);
+                        file.Dispose();
+                        dataExternal_3 = new List<String> { };
+                        completeIps++;
+                        label2.Text = completeIps + " / " + lines.Length;
+                    }));
+                }
+                if (thrid == 4)
+                {
+                    this.Invoke(new MethodInvoker(delegate ()
+                    {
+                        string safeFilename = s.Replace('.', '-') + ".txt";
+                        safeFilename = safeFilename.Replace(':', '-');
+                        fileCurrentlyWriting_4 = Application.StartupPath + "/" + safeFilename;
+                        fileCurrentlyWriting_4 = fileCurrentlyWriting_4.Replace('\\', '/');
+                        var file = File.Create(fileCurrentlyWriting_4);
+                        file.Dispose();
+                        dataExternal_4 = new List<String> { };
+                        completeIps++;
+                        label2.Text = completeIps + " / " + lines.Length;
+                    }));
+                }
+
                 string root = "ftp://" + s;
                 List<String> data = getFilesInDirectory(root, thrid, s);
             }
@@ -106,14 +171,15 @@ namespace FTPscan
                         string nextURl = dir + "/" + tmp;
                         string processedURL = nextURl.Replace("ftp://", "");
 
-                        processedURL = processedURL.Replace(" ", "_");               
+                        processedURL = processedURL.Replace(" ", "_");
 
                         //Console.WriteLine(processedURL);
-                        this.Invoke(new MethodInvoker(delegate ()
+
+                        if (processedURL.Length > 400)
                         {
-                            dataExternal.Add(processedURL);
-                            File.WriteAllLines(fileCurrentlyWriting, dataExternal);
-                        }));
+                            processedURL = processedURL.Substring(processedURL.Length - 100, 100);
+                            processedURL = "..." + processedURL;
+                        }
 
                         switch (thrid)
                         {
@@ -121,6 +187,8 @@ namespace FTPscan
                                 this.Invoke(new MethodInvoker(delegate ()
                                 {
                                     label1.Text = rawIP.Replace("ftp://", "") + " | " + fileCounter + " files";
+                                    dataExternal_1.Add(processedURL);
+                                    File.WriteAllLines(fileCurrentlyWriting_1, dataExternal_1);
                                 }));
                                 break;
 
@@ -128,6 +196,8 @@ namespace FTPscan
                                 this.Invoke(new MethodInvoker(delegate ()
                                 {
                                     label7.Text = rawIP.Replace("ftp://", "") + " | " + fileCounter + " files";
+                                    dataExternal_2.Add(processedURL);
+                                    File.WriteAllLines(fileCurrentlyWriting_2, dataExternal_2);
                                 }));
                                 break;
 
@@ -135,6 +205,8 @@ namespace FTPscan
                                 this.Invoke(new MethodInvoker(delegate ()
                                 {
                                     label8.Text = rawIP.Replace("ftp://", "") + " | " + fileCounter + " files";
+                                    dataExternal_3.Add(processedURL);
+                                    File.WriteAllLines(fileCurrentlyWriting_3, dataExternal_3);
                                 }));
                                 break;
 
@@ -142,6 +214,8 @@ namespace FTPscan
                                 this.Invoke(new MethodInvoker(delegate ()
                                 {
                                     label9.Text = rawIP.Replace("ftp://", "") + " | " + fileCounter + " files";
+                                    dataExternal_4.Add(processedURL);
+                                    File.WriteAllLines(fileCurrentlyWriting_4, dataExternal_4);
                                 }));
                                 break;
 
@@ -198,6 +272,13 @@ namespace FTPscan
                     label2.Text = "0 / " + lines.Length;
                 }
             }            
+        }
+
+        public static int GetNextInt32(RNGCryptoServiceProvider rnd)
+        {
+            byte[] randomInt = new byte[4];
+            rnd.GetBytes(randomInt);
+            return Convert.ToInt32(randomInt[0]);
         }
     }
 }
