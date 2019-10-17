@@ -211,7 +211,9 @@ namespace FTPscan
                     string nextURl = dir + "/" + tmp;
                     string processedURL = nextURl.Replace("ftp://", "");
 
-                    //processedURL = processedURL.Replace(" ", "_");
+                    string processedURL_whitespace = processedURL;
+
+                    processedURL = processedURL.Replace(" ", "_");
 
                     //Console.WriteLine(processedURL);
 
@@ -306,7 +308,7 @@ namespace FTPscan
                         {
                             WebClient webc = new WebClient();
                             webc.Credentials = new NetworkCredential("anonymous", "anonymous");
-                            webc.DownloadFile("ftp://" + processedURL, file);
+                            webc.DownloadFile("ftp://" + processedURL_whitespace, file);
                         }
                         catch
                         {
