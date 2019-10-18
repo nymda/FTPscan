@@ -15,9 +15,9 @@ using System.Windows.Forms;
 
 namespace FTPscan
 {
-    public partial class Form1 : Form
+    public partial class mainUI : Form
     {
-        public Form1()
+        public mainUI()
         {
             InitializeComponent();
         }
@@ -206,16 +206,21 @@ namespace FTPscan
             {
                 if (str.Length > 0)
                 {
-                    string tmp = str.Substring(56);
+                    string rem = str;
+                    string tmp = rem.Substring(56);
                     tmp = Regex.Replace(tmp, @"\t|\n|\r", "");
+
+                    if(tmp == "")
+                    {
+                        return new List<string> { };
+                    }
+
                     string nextURl = dir + "/" + tmp;
                     string processedURL = nextURl.Replace("ftp://", "");
 
                     string processedURL_whitespace = processedURL;
 
                     processedURL = processedURL.Replace(" ", "_");
-
-                    //Console.WriteLine(processedURL);
 
                     if (processedURL.Length > 500)
                     {
@@ -229,7 +234,7 @@ namespace FTPscan
                             this.Invoke(new MethodInvoker(delegate ()
                             {
                                 currentFilecount_1++;
-                                label1.Text = rawIP.Replace("ftp://", "") + " | " + fileCounter + " files";
+                                label1.Text = rawIP.Replace("ftp://", "") + " | " + currentFilecount_1 + " files";
                                 dataExternal_1.Add(processedURL);
                                 File.WriteAllLines(fileCurrentlyWriting_1, dataExternal_1);
                             }));
@@ -243,7 +248,7 @@ namespace FTPscan
                             this.Invoke(new MethodInvoker(delegate ()
                             {
                                 currentFilecount_2++;
-                                label7.Text = rawIP.Replace("ftp://", "") + " | " + fileCounter + " files";
+                                label7.Text = rawIP.Replace("ftp://", "") + " | " + currentFilecount_2 + " files";
                                 dataExternal_2.Add(processedURL);
                                 File.WriteAllLines(fileCurrentlyWriting_2, dataExternal_2);
                             }));
@@ -257,7 +262,7 @@ namespace FTPscan
                             this.Invoke(new MethodInvoker(delegate ()
                             {
                                 currentFilecount_3++;
-                                label8.Text = rawIP.Replace("ftp://", "") + " | " + fileCounter + " files";
+                                label8.Text = rawIP.Replace("ftp://", "") + " | " + currentFilecount_3 + " files";
                                 dataExternal_3.Add(processedURL);
                                 File.WriteAllLines(fileCurrentlyWriting_3, dataExternal_3);
                             }));
@@ -271,7 +276,7 @@ namespace FTPscan
                             this.Invoke(new MethodInvoker(delegate ()
                             {
                                 currentFilecount_4++;
-                                label9.Text = rawIP.Replace("ftp://", "") + " | " + fileCounter + " files";
+                                label9.Text = rawIP.Replace("ftp://", "") + " | " + currentFilecount_4 + " files";
                                 dataExternal_4.Add(processedURL);
                                 File.WriteAllLines(fileCurrentlyWriting_4, dataExternal_4);
                             }));
@@ -421,6 +426,12 @@ namespace FTPscan
             string[] spl = url.Split('/');
             string file = spl[spl.Length - 1];
             return file;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Info info = new Info();
+            info.Show();
         }
     }
 }

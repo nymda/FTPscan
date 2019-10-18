@@ -1,6 +1,6 @@
 ﻿namespace FTPscan
 {
-    partial class Form1
+    partial class mainUI
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainUI));
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -47,6 +48,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -254,11 +256,22 @@
             this.panel1.Size = new System.Drawing.Size(321, 10);
             this.panel1.TabIndex = 18;
             // 
-            // Form1
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(317, 4);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(23, 23);
+            this.button4.TabIndex = 19;
+            this.button4.Text = "❓";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // mainUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(345, 407);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.textBox1);
@@ -279,7 +292,10 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Form1";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "mainUI";
             this.Text = "FTP crawl";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
@@ -309,6 +325,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button4;
     }
 }
 
